@@ -1,6 +1,6 @@
-# API REST - MicroServiço de Autenticação
+# API REST - MicroServiço de Autenticação 🔐
 
-## CRUD de Usuários:
+## 🕺 CRUD de Usuários:
 
 - GET /users
 - GET /users/:uuid
@@ -8,7 +8,7 @@
 - PUT /users/:uuid
 - DELETE /users/:uuid
 
-## Autenticação
+## 🔓 Autenticação
 
 - POST /token
 - POST /token/validate
