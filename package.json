@@ -1,12 +1,16 @@
 {
   "name": "microservice_auth_api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "node ./",
+    "build": "tsc -p ."
   },
   "license": "MIT",
   "dependencies": {
     "typescript": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^16.10.1"
   }
 }
