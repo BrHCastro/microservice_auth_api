@@ -39,6 +39,27 @@ class UserRepository {
 
     return newUser.uuid
   }
+
+  async update (user: User): Promise<number> {
+    const script = `
+                    UPDATE ms_auth_user 
+                    SET 
+                      username = $1, 
+                      email = $2,
+                      password = crypt($3, $4)
+                    WHERE uuid = $5;
+                  `
+    const values = [user.username, user.email, user.password, process.env.PG_SECRET_KEY, user.uuid]
+    const result = await db.query(script, values)
+    return result.rowCount
+  }
+
+  async remove (uuid: string): Promise<number> {
+    const script = 'DELETE FROM ms_auth_user WHERE uuid = $1'
+    const values = [uuid]
+    const result = await db.query(script, values)
+    return result.rowCount
+  }
 }
 
 export default new UserRepository()

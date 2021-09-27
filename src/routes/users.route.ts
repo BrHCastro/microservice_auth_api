@@ -46,19 +46,38 @@ userRoute.post('/users', async (req: Request, res: Response, next: NextFunction)
   }
 })
 
-userRoute.put('/users/:uuid', (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
+userRoute.put('/users/:uuid', async (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
   const { uuid } = req.params
   const userUpdated = req.body
-
   userUpdated.uuid = uuid
 
-  res.status(StatusCodes.OK).json({ userUpdated })
+  try {
+    const update = await userRepository.update(userUpdated)
+
+    if (update === 0) {
+      throw new Error('There was an error updating user 😥')
+    }
+
+    res.status(StatusCodes.OK).json({ message: 'Updated successfully! 😁' })
+  } catch (err) {
+    return res.status(StatusCodes.BAD_REQUEST).json({ Erro: err.message })
+  }
 })
 
-userRoute.delete('/users/:uuid', (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
+userRoute.delete('/users/:uuid', async (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
   const { uuid } = req.params
 
-  res.status(StatusCodes.OK).send(`user with uuid ${uuid} was deleted successfully!`)
+  try {
+    const removed = await userRepository.remove(uuid)
+
+    if (removed === 0) {
+      throw new Error('There was an error deleting user 😥')
+    }
+
+    res.status(StatusCodes.OK).json({ message: `user with uuid ${uuid} was deleted successfully!` })
+  } catch (err) {
+    return res.status(StatusCodes.BAD_REQUEST).json({ Erro: err.message })
+  }
 })
 
 export default userRoute
