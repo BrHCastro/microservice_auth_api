@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(statusRoute)
 app.use(userRoute)
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 8081
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT} 🔥🔥🔥`)
 })
