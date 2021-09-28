@@ -1,4 +1,5 @@
 import express from 'express'
+import errorHandler from './middleware/error-handler.middleware'
 import statusRoute from './routes/status.route'
 import userRoute from './routes/users.route'
 
@@ -10,7 +11,10 @@ app.use(express.urlencoded({ extended: true }))
 app.use(statusRoute)
 app.use(userRoute)
 
-const PORT = process.env.PORT || 8081
+// Middleware
+app.use(errorHandler)
+
+const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT} 🔥🔥🔥`)
 })
