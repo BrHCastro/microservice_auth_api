@@ -32,6 +32,23 @@ class UserRepository {
     }
   }
 
+  async findUserByUsernameAndPassword (username: string, password: string): Promise<User | null> {
+    try {
+      const query = `
+            SELECT uuid, username
+            FROM ms_auth_user
+            WHERE username = $1 
+            AND password = crypt($2, $3);
+            `
+      const values = [username, password, process.env.PG_SECRET_KEY]
+      const { rows } = await db.query<User>(query, values)
+      const [user] = rows
+      return user || null
+    } catch (error) {
+      throw new DataBaseError('Error in querying by username and password. 😐', error)
+    }
+  }
+
   async create (user: User): Promise<string> {
     if (user.password == null || user.email == null || user.username == null) {
       throw new DataBaseError('Username, E-mail and Password cannot be empty!')

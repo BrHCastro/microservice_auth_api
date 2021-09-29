@@ -34,7 +34,7 @@ userRoute.post('/users', async (req: Request, res: Response, next: NextFunction)
 
   try {
     const insert = await userRepository.create(newUser)
-    return res.status(StatusCodes.OK).json({ insert })
+    return res.status(StatusCodes.CREATED).json({ insert })
   } catch (error) {
     next(error)
   }
