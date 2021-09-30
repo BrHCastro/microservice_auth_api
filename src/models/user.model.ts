@@ -1,7 +1,7 @@
 type User = {
   uuid?: string;
   username: string;
-  email: string;
+  email?: string;
   password?: string;
 }
 
