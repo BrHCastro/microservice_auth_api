@@ -1,5 +1,4 @@
 import express from 'express'
-import bearerAuthenticationMiddleware from './middleware/bearer-authentication.middleware'
 import errorHandler from './middleware/error-handler.middleware'
 import authorizationRoute from './routes/authorization.route'
 import statusRoute from './routes/status.route'
@@ -11,7 +10,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use(statusRoute)
-app.use(bearerAuthenticationMiddleware, userRoute)
+app.use(userRoute)
 app.use(authorizationRoute)
 
 // Middleware

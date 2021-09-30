@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import { StatusCodes } from 'http-status-codes'
+import jwtAuthenticationMiddleware from '../middleware/jwt-authentication.middleware'
 import userRepository from '../repositories/user.repository'
 
 const userRoute = Router()
 
-userRoute.get('/users', async (req: Request, res: Response, next: NextFunction) => {
+userRoute.get('/users', jwtAuthenticationMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const users = await userRepository.findAllUsers()
     if (users.length === 0) {
@@ -16,7 +17,7 @@ userRoute.get('/users', async (req: Request, res: Response, next: NextFunction) 
   }
 })
 
-userRoute.get('/users/:uuid', async (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
+userRoute.get('/users/:uuid', jwtAuthenticationMiddleware, async (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
   try {
     const { uuid } = req.params
     const user = await userRepository.findUserById(uuid)
@@ -29,7 +30,7 @@ userRoute.get('/users/:uuid', async (req: Request<{ uuid: string }>, res: Respon
   }
 })
 
-userRoute.post('/users', async (req: Request, res: Response, next: NextFunction) => {
+userRoute.post('/users', jwtAuthenticationMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   const newUser = req.body
 
   try {
@@ -40,7 +41,7 @@ userRoute.post('/users', async (req: Request, res: Response, next: NextFunction)
   }
 })
 
-userRoute.put('/users/:uuid', async (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
+userRoute.put('/users/:uuid', jwtAuthenticationMiddleware, async (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
   const { uuid } = req.params
   const userUpdated = req.body
   userUpdated.uuid = uuid
@@ -58,7 +59,7 @@ userRoute.put('/users/:uuid', async (req: Request<{ uuid: string }>, res: Respon
   }
 })
 
-userRoute.delete('/users/:uuid', async (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
+userRoute.delete('/users/:uuid', jwtAuthenticationMiddleware, async (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
   const { uuid } = req.params
 
   try {
