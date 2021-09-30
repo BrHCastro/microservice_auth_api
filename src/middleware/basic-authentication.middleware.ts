@@ -12,8 +12,6 @@ async function basicAuthenticationMiddleWare (req: Request, res: Response, next:
 
     const [authenticationType, token] = authorizationHeader.split(' ')
 
-    console.log(authenticationType)
-
     if (authenticationType !== 'Basic' || !token) {
       throw new ForbiddenError('Invalid authentication type.')
     }
